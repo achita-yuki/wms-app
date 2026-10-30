@@ -87,13 +87,13 @@ dialog::backdrop{background:rgba(8,12,24,.55)}
       <button class="btn" id="bReset">ล้างตัวกรอง</button>
       <span class="sub" id="cnt"></span>
     </div>
-    <div class="overflow-x-auto"><table style="min-width:1080px"><thead>
+    <div class="overflow-x-auto"><table style="min-width:1160px"><thead>
       <tr id="hSort"></tr>
       <!-- Inline Column Filter -->
       <tr id="hFilt">
         <th><input class="inp" data-f="item" placeholder="กรอง Item"></th><th><input class="inp" data-f="desc" placeholder="กรองชื่อ"></th>
         <th><input class="inp" data-f="lot" placeholder="กรอง Lot"></th><th style="min-width:190px"><div class="flex flex-col gap-1"><select class="inp" data-f="locz"><option value="">ทุก Location</option><option value="nopk">ไม่เอา PICKTO</option><option value="nosg">ไม่เอา STAGE</option><option value="nopksg">ไม่เอา PICKTO + STAGE</option><option value="rack">เฉพาะ Rack ปกติ</option><option value="pk">เฉพาะ PICKTO</option><option value="sg">เฉพาะ STAGE</option></select><input class="inp" data-f="loc" placeholder="กรอง Location"><input class="inp" data-f="locx" placeholder="ไม่เอา เช่น 02A, CS3"></div></th>
-        <th style="min-width:210px"><div class="flex flex-col gap-1"><select class="inp" data-f="lpnt"><option value="">ทุกประเภท LPN</option><option value="nonum">ไม่เอา LPN ตัวเลขล้วน (0000178433)</option><option value="num">เฉพาะ LPN ตัวเลขล้วน</option></select><input class="inp" data-f="lpn" placeholder="กรอง LPN"><input class="inp" data-f="lpnx" placeholder="ไม่เอาขึ้นต้นด้วย เช่น 00001784"></div></th><th></th><th></th>
+        <th style="min-width:210px"><div class="flex flex-col gap-1"><select class="inp" data-f="lpnt"><option value="">ทุกประเภท LPN</option><option value="nonum">ไม่เอา LPN ตัวเลขล้วน (0000178433)</option><option value="num">เฉพาะ LPN ตัวเลขล้วน</option></select><input class="inp" data-f="lpn" placeholder="กรอง LPN"><input class="inp" data-f="lpnx" placeholder="ไม่เอาขึ้นต้นด้วย เช่น 00001784"></div></th><th></th><th><select class="inp" data-f="alloc"><option value="">ทุก Allocated</option><option value="free">Allocated = 0 (พร้อมรวม/ตัด)</option><option value="held">มี Allocated &gt; 0</option></select></th><th></th>
         <th><select class="inp" data-f="wh" id="cWh"></select></th><th></th>
       </tr></thead><tbody id="tb"></tbody></table></div>
     <div class="p-3 flex gap-2 items-center"><button class="btn hide" id="bMore">แสดงเพิ่ม 200 แถว</button></div>
@@ -120,10 +120,10 @@ dialog::backdrop{background:rgba(8,12,24,.55)}
       <div id="mBar" class="flex flex-wrap gap-2 items-end"></div>
       <div class="flex flex-wrap gap-2 items-center"><span id="mSum"></span><div class="flex-1"></div>
         <button class="btn" id="bMClr">ล้างที่เลือก</button><button class="btn" id="bMAuto">ให้โปรแกรมหาชุดที่ตรง Cap</button><button class="btn p" id="bMrg" disabled>รวมเลท…</button><button class="btn p" id="bMCut" disabled title="ใช้ได้เมื่อยอดที่เลือกเท่ากับหรือน้อยกว่า Master Cap">ตัดยอด…</button></div>
-      <div class="sub">ติ๊กเลือก LPN เอง แล้วกด “รวมเลท” หรือกด “ให้โปรแกรมหาชุดที่ตรง Cap” (ถ้าติ๊กไว้บางส่วน โปรแกรมจะหา LPN มาเติมให้ครบ Cap) · รวมได้เฉพาะ LPN ในคลัง (CS) เดียวกันเท่านั้น · ระบบยังไม่รวมจนกว่าคุณจะกดยืนยัน · เมื่อยอดรวมที่เลือก<b>เท่ากับหรือน้อยกว่า Cap</b> (ไม่เกิน) กด “ตัดยอด” เพื่อตัดชุดนี้ออกจากสต็อกได้ ไม่จำเป็นต้องเต็ม Cap (ยกเลิกได้จากประวัติการตัดยอด)</div>
+      <div class="sub">ติ๊กเลือก LPN เอง แล้วกด “รวมเลท” หรือกด “ให้โปรแกรมหาชุดที่ตรง Cap” (ถ้าติ๊กไว้บางส่วน โปรแกรมจะหา LPN มาเติมให้ครบ Cap) · รวมได้เฉพาะ LPN ในคลัง (CS) เดียวกันเท่านั้น · ระบบยังไม่รวมจนกว่าคุณจะกดยืนยัน · <b>รวมเลท/ตัดยอดได้เฉพาะ LPN ที่ Allocated = 0</b> (LPN ที่มี Allocated จะถูกล็อกและไม่ถูกนำไปจัดชุดให้) · เมื่อยอดรวมที่เลือก<b>เท่ากับหรือน้อยกว่า Cap</b> (ไม่เกิน) กด “ตัดยอด” เพื่อตัดชุดนี้ออกจากสต็อกได้ ไม่จำเป็นต้องเต็ม Cap (ยกเลิกได้จากประวัติการตัดยอด)</div>
     </div>
     <div id="mPrev"></div>
-    <div class="card overflow-hidden"><div class="overflow-x-auto"><table><thead><tr><th></th><th>LPN</th><th>Location</th><th>Lot</th><th class="r">Case On Hand</th><th>LPN ปลายทาง</th></tr></thead><tbody id="mTb"></tbody></table></div></div>
+    <div class="card overflow-hidden"><div class="overflow-x-auto"><table><thead><tr><th></th><th>LPN</th><th>Location</th><th>Lot</th><th class="r">Case On Hand</th><th class="r">Allocated</th><th>LPN ปลายทาง</th></tr></thead><tbody id="mTb"></tbody></table></div></div>
     <div id="mRes"></div>
     <div class="font-semibold">ประวัติการรวมเลท</div><div id="mHist" class="grid gap-2"></div>
     <div class="font-semibold">ประวัติการตัดยอด</div><div id="cHist" class="grid gap-2"></div>
@@ -170,8 +170,8 @@ function modal(title, body, btns) {                                         // M
 }
 
 /* ===================== สถานะ + บันทึกถาวร (IndexedDB) ===================== */
-let rows = [], master = {}, logs = [], merges = [], cuts = [], tab = 'stock', limit = 200, sortK = 'lpn', sortD = 1, pm = {};
-const flt = { q: '', item: '', desc: '', lot: '', loc: '', lpn: '', wh: '', locz: '', locx: '', lpnt: '', lpnx: '' };
+let rows = [], master = {}, logs = [], merges = [], cuts = [], tab = 'stock', limit = 200, sortK = 'lpn', sortD = 1, pm = {}, pa = {};
+const flt = { q: '', item: '', desc: '', lot: '', loc: '', lpn: '', wh: '', locz: '', locx: '', lpnt: '', lpnx: '', alloc: '' };
 const idb = () => new Promise((ok, no) => { const r = indexedDB.open('wms_single', 1); r.onupgradeneeded = () => r.result.createObjectStore('kv'); r.onsuccess = () => ok(r.result); r.onerror = () => no(r.error); });
 let svT; const save = () => { clearTimeout(svT); svT = setTimeout(async () => { try { const d = await idb(); d.transaction('kv', 'readwrite').objectStore('kv').put({ rows, master, logs, merges, cuts }, 'wms'); } catch (e) {} }, 400); };
 async function load() {
@@ -190,7 +190,7 @@ const packCap = p => { const v = parseFloat(String(p || '').split('_').pop()); r
 /* ===================== นำเข้า Excel / CSV ===================== */
 const AL = { item: ['item', 'itemcode', 'material', 'sku'], desc: ['description', 'desc'], loc: ['location', 'loc'], lpn: ['lpn'],
   qty: ['caseonhand', 'onhand', 'qty'], lot: ['loterp', 'lot', 'lotnumber', 'lotno'], lot2: ['lotdld', 'lotdid', 'lotid'],
-  wh: ['wh', 'warehouse'], cap: ['mastercap', 'cap'], pack: ['pack'], st: ['lotstatus', 'status'] };
+  wh: ['wh', 'warehouse'], alloc: ['allocated', 'allocatedqty', 'caseallocated', 'allocatedcase', 'allocqty', 'alloc'], cap: ['mastercap', 'cap'], pack: ['pack'], st: ['lotstatus', 'status'] };
 function parse(aoa) {
   const h = aoa.findIndex(r => r.some(c => N(c) === 'lpn') && r.some(c => AL.item.includes(N(c))));   // หาแถวหัวตารางเอง
   if (h < 0) throw new Error('ไม่พบหัวตาราง (ต้องมีคอลัมน์ Item และ LPN)');
@@ -206,9 +206,9 @@ function parse(aoa) {
     const q = parseFloat(g(r, 'qty').replace(/,/g, ''));
     out.push({ id: uid(), item, desc: g(r, 'desc'), lot: g(r, 'lot') || '-', lot2: g(r, 'lot2'), loc: g(r, 'loc'), lpn,
       qty: r2(isNaN(q) ? 0 : q), wh: (g(r, 'wh') || 'CS2').toUpperCase(), st: (g(r, 'st') || 'ACTIVE').toUpperCase(),
-      pack: packCap(g(r, 'pack')), cap: parseFloat(g(r, 'cap')) || 0 });
+      alloc: Math.max(0, r2(parseFloat(g(r, 'alloc').replace(/,/g, '')) || 0)), pack: packCap(g(r, 'pack')), cap: parseFloat(g(r, 'cap')) || 0 });
   });
-  return { out, names };
+  return { out, names, hasAlloc: col.alloc !== undefined };
 }
 async function readFile(f) {
   const wb = XLSX.read(await f.arrayBuffer(), { type: 'array' });
@@ -223,11 +223,15 @@ function applyImport(p, replace) {
   p.out.forEach(r => { const m = master[r.item] || (master[r.item] = {}); if (r.pack) m.pack = r.pack; if (r.cap > 0) m.cap = r.cap; if (r.desc && !m.name) m.name = r.desc; });
   for (const k in p.names) (master[k] || (master[k] = {})).name = p.names[k];
   log('นำเข้า', { item: '', lpn: '', lot: '', qty: r2(p.out.reduce((a, r) => a + r.qty, 0)), wh: '' }, p.out.length + ' แถว');
-  refresh(); toast('นำเข้า ' + p.out.length.toLocaleString() + ' แถว');
+  refresh(); toast('นำเข้า ' + p.out.length.toLocaleString() + ' แถว' + (p.hasAlloc ? '' : ' · ไฟล์ไม่มีคอลัมน์ Allocated (ถือเป็น 0)'));
 }
 
 /* ===================== ตารางสต็อก ===================== */
-const COLS = [['item', 'ITEM'], ['desc', 'DESCRIPTION'], ['lot', 'LOT'], ['loc', 'LOCATION'], ['lpn', 'LPN ▲'], ['qty', 'CASE ON HAND'], ['pt', 'รวม LPN / CAP'], ['wh', 'WH'], ['', '']];
+const COLS = [['item', 'ITEM'], ['desc', 'DESCRIPTION'], ['lot', 'LOT'], ['loc', 'LOCATION'], ['lpn', 'LPN ▲'], ['qty', 'CASE ON HAND'], ['alloc', 'ALLOCATED'], ['pt', 'รวม LPN / CAP'], ['wh', 'WH'], ['', '']];
+/* Allocated: พาเลทที่มี Allocated > 0 ห้ามนำไปรวมเลท / ตัดยอด (ต้องเป็น 0 เท่านั้น) */
+const aOf = r => r.alloc > 0 ? r.alloc : 0;
+const palFree = (item, lpn) => !(pa[item + '|' + lpn] > 0);
+function allocOk(r, f = flt) { const z = f.alloc, free = palFree(r.item, r.lpn); return z === 'free' ? free : z === 'held' ? !free : true; }
 /* ตัวกรองแบบ "ไม่เอา" ของ Location และ LPN (ใช้ร่วมกับตาราง, Export และจัดชุด) */
 const terms = s => String(s).split(/[,\s]+/).map(x => x.trim().toUpperCase()).filter(Boolean);
 /* ===== แถบตัวกรองในแท็บจัดชุด (o) และรวมเลท (m): คลัง / โซน / ไม่เอา Location / ประเภท LPN ===== */
@@ -256,11 +260,11 @@ function lpnOk(r, f = flt) {
 function viewRows() {
   const q = flt.q.toLowerCase(), has = (v, f) => !f || String(v || '').toLowerCase().includes(f.toLowerCase());
   const out = rows.filter(r => (!q || [r.item, r.desc, r.lot, r.lot2, r.loc, r.lpn].some(v => String(v || '').toLowerCase().includes(q))) &&
-    has(r.item, flt.item) && has(nameOf(r.item, r.desc), flt.desc) && has(r.lot + ' ' + r.lot2, flt.lot) && has(r.loc, flt.loc) && has(r.lpn, flt.lpn) && (!flt.wh || r.wh === flt.wh) && locOk(r) && lpnOk(r));
-  return out.sort((a, b) => (sortK === 'qty' ? a.qty - b.qty : CO.compare(String(a[sortK] || ''), String(b[sortK] || ''))) * sortD || CO.compare(a.lpn, b.lpn));
+    has(r.item, flt.item) && has(nameOf(r.item, r.desc), flt.desc) && has(r.lot + ' ' + r.lot2, flt.lot) && has(r.loc, flt.loc) && has(r.lpn, flt.lpn) && (!flt.wh || r.wh === flt.wh) && locOk(r) && lpnOk(r) && allocOk(r));
+  return out.sort((a, b) => (sortK === 'qty' || sortK === 'alloc' ? (sortK === 'alloc' ? aOf(a) - aOf(b) : a.qty - b.qty) : CO.compare(String(a[sortK] || ''), String(b[sortK] || ''))) * sortD || CO.compare(a.lpn, b.lpn));
 }
 function refresh() {
-  pm = {}; rows.forEach(r => { const k = r.item + '|' + r.lpn; pm[k] = r2((pm[k] || 0) + r.qty); });   // ยอดรวมรายพาเลท (Item + LPN)
+  pm = {}; pa = {}; rows.forEach(r => { const k = r.item + '|' + r.lpn; pm[k] = r2((pm[k] || 0) + r.qty); pa[k] = r2((pa[k] || 0) + aOf(r)); });   // ยอดรวมรายพาเลท (Item + LPN)
   const whs = [...new Set(rows.map(r => r.wh))].sort(CO.compare), opt = '<option value="">ทุกคลัง</option>' + whs.map(w => '<option>' + esc(w) + '</option>').join('');
   ['#fWh', '#cWh'].forEach(s => { const e = $(s), v = e.value; e.innerHTML = opt; e.value = whs.includes(v) ? v : ''; });
   $$('[data-ff="wh"]').forEach(e => { const v = e.value; e.innerHTML = opt; e.value = whs.includes(v) ? v : ''; FS[e.dataset.fk].wh = e.value; });
@@ -278,9 +282,10 @@ function render() {
       const cap = capOf(r.item, r.wh), t = pm[r.item + '|' + r.lpn] || 0, cl = t > cap ? 'bad' : t === cap ? 'ok' : 'wn', col = t > cap ? 'var(--bad)' : t === cap ? 'var(--ok)' : 'var(--wn)';
       return '<tr><td class="mono">' + esc(r.item) + '</td><td>' + esc(nameOf(r.item, r.desc)) + '</td><td class="mono">' + esc(r.lot) + '<div class="sub">' + esc(r.lot2) + '</div></td><td>' + esc(r.loc || '—') + '</td>' +
         '<td class="mono"><b>' + esc(r.lpn) + '</b>' + (r.from ? '<div class="sub">รวมจาก ' + esc(r.from) + '</div>' : '') + '</td><td class="r mono"><b>' + fmt(r.qty) + '</b></td>' +
+        '<td class="r mono">' + (aOf(r) > 0 ? '<span class="chip bad">' + fmt(aOf(r)) + '</span>' : palFree(r.item, r.lpn) ? '<span class="sub">0</span>' : '<span class="sub">0</span><div class="sub" style="color:var(--bad)">พาเลทมี Alloc ' + fmt(pa[r.item + '|' + r.lpn]) + '</div>') + '</td>' +
         '<td class="mono"><span class="chip ' + cl + '">' + fmt(t) + ' / ' + fmt(cap) + '</span><div class="bar"><i style="width:' + Math.min(100, t / cap * 100) + '%;background:' + col + '"></i></div></td>' +
         '<td>' + esc(r.wh) + '</td><td style="white-space:nowrap"><button class="btn s" data-o="' + esc(r.item) + '">จัดชุด</button> <button class="btn s" data-g="' + esc(r.item) + '|' + esc(r.wh) + '">รวมเลท</button> <button class="btn s d" data-d="' + r.id + '">ลบ</button></td></tr>';
-    }).join('') : '<tr><td colspan="9" class="sub" style="text-align:center;padding:40px">' + (rows.length ? 'ไม่พบรายการตามตัวกรอง' : 'ยังไม่มีข้อมูล — กด “นำเข้า Excel / CSV”') + '</td></tr>';
+    }).join('') : '<tr><td colspan="10" class="sub" style="text-align:center;padding:40px">' + (rows.length ? 'ไม่พบรายการตามตัวกรอง' : 'ยังไม่มีข้อมูล — กด “นำเข้า Excel / CSV”') + '</td></tr>';
   }
   if (tab === 'opt') renderOpt();
   if (tab === 'mrg') renderMrg();
@@ -296,10 +301,10 @@ function delRow(id) {
 }
 
 /* ===================== Batch Optimizer (Pallet Bucketing) ===================== */
-function palletsOf(item, wh, f) {                                                   // รวมทุกแถวของ LPN เดียวกันเป็น 1 พาเลท
+function palletsOf(item, wh, f, all) {                                                   // รวมทุกแถวของ LPN เดียวกันเป็น 1 พาเลท
   const m = {};
-  rows.forEach(r => { if (r.item !== item || r.wh !== wh || !passF(r, f)) return; const o = m[r.lpn] || (m[r.lpn] = { lpn: r.lpn, qty: 0, locs: new Set(), wh: r.wh }); o.qty = r2(o.qty + r.qty); if (r.loc) o.locs.add(r.loc); });
-  return Object.values(m).filter(p => p.qty > 0);
+  rows.forEach(r => { if (r.item !== item || r.wh !== wh || !passF(r, f)) return; const o = m[r.lpn] || (m[r.lpn] = { lpn: r.lpn, qty: 0, alloc: 0, locs: new Set(), wh: r.wh }); o.qty = r2(o.qty + r.qty); o.alloc = r2(o.alloc + aOf(r)); if (r.loc) o.locs.add(r.loc); });
+  return Object.values(m).filter(p => p.qty > 0 && (all || p.alloc <= 0));
 }
 function pack(ps, cap, mode) {                                               // ชุดละไม่เกิน Cap · ไม่แยก LPN
   const over = ps.filter(p => p.qty > cap).map(p => ({ ps: [p], t: p.qty, over: true }));
@@ -322,9 +327,9 @@ function renderOpt() {
   rows.forEach(r => { if (!passF(r, FS.o)) return; const k = r.item + '|' + r.wh, a = agg[k] || (agg[k] = { item: r.item, wh: r.wh, hit: !q }); if (q && (r.item + ' ' + nameOf(r.item, r.desc) + ' ' + r.lpn).toLowerCase().includes(q)) a.hit = true; });
   const list = Object.values(agg).filter(a => a.hit).sort((a, b) => CO.compare(a.item, b.item) || CO.compare(a.wh, b.wh)), mode = $('#om').value;
   $('#oList').innerHTML = list.slice(0, 30).map(a => {
-    const cap = capOf(a.item, a.wh), ps = palletsOf(a.item, a.wh, FS.o), sets = pack(ps, cap, mode), tot = r2(ps.reduce((s, p) => s + p.qty, 0));
+    const cap = capOf(a.item, a.wh), ps = palletsOf(a.item, a.wh, FS.o), held = palletsOf(a.item, a.wh, FS.o, true).length - ps.length, sets = pack(ps, cap, mode), tot = r2(ps.reduce((s, p) => s + p.qty, 0));
     return '<details class="card p-3"' + (q ? ' open' : '') + '><summary class="cursor-pointer"><b class="mono">' + esc(a.item) + '</b> ' + esc(nameOf(a.item)) +
-      ' <span class="chip">' + esc(a.wh) + '</span> <span class="chip">Cap ' + fmt(cap) + ' · ' + srcOf(a.item) + '</span> <span class="chip">' + ps.length + ' พาเลท → ' + sets.length + ' ชุด</span> <span class="chip">รวม ' + fmt(tot) + '</span></summary><div class="grid gap-2 mt-2">' +
+      ' <span class="chip">' + esc(a.wh) + '</span> <span class="chip">Cap ' + fmt(cap) + ' · ' + srcOf(a.item) + '</span> <span class="chip">' + ps.length + ' พาเลท → ' + sets.length + ' ชุด</span>' + (held ? ' <span class="chip bad">ข้าม ' + held + ' พาเลทที่มี Allocated</span>' : '') + ' <span class="chip">รวม ' + fmt(tot) + '</span></summary><div class="grid gap-2 mt-2">' +
       sets.map((s, i) => { const keep = s.ps.reduce((m, p) => p.qty > m.qty ? p : m, s.ps[0]);
         return '<div class="card p-2"><b>ชุดที่ ' + (i + 1) + '</b> <span class="chip ' + (s.over ? 'bad' : s.t === cap ? 'ok' : 'wn') + '">' + fmt(s.t) + ' / ' + fmt(cap) + (s.over ? ' เกิน Cap' : '') + '</span> <span class="sub">เก็บที่ ' + esc(keep.lpn) + '</span><div class="mt-1 flex flex-wrap gap-1">' +
           s.ps.map(p => '<span class="chip mono' + (p === keep ? ' ok' : '') + '">' + esc(p.lpn) + ' · ' + fmt(p.qty) + (p.locs.size ? ' · ' + esc([...p.locs].join(', ')) : '') + '</span>').join('') + '</div></div>'; }).join('') + '</div></details>';
@@ -332,6 +337,7 @@ function renderOpt() {
 }
 
 /* ===================== รวมเลท (เลือกเอง / ให้โปรแกรมหาชุดที่ตรง Cap) ===================== */
+const mOk = p => !(p.alloc > 0);                          // รวมเลท/ตัดยอดได้เฉพาะพาเลทที่ Allocated = 0
 const mSel = new Set();                                   // LPN ที่ติ๊กเลือกไว้
 let mDest = '', mLast = null, mPrev = '', mPick = '';
 function mCur() { const k = $('#mi').value, i = k.lastIndexOf('|'); return { item: i < 0 ? '' : k.slice(0, i), wh: i < 0 ? '' : k.slice(i + 1) }; }   // คีย์ = Item|WH (ไม่รวมข้ามคลัง)
@@ -339,8 +345,8 @@ function mPallets(item, wh) {                                 // พาเลท
   const m = {};
   rows.forEach(r => {
     if (r.item !== item || r.wh !== wh || !passF(r, FS.m)) return;
-    const o = m[r.lpn] || (m[r.lpn] = { lpn: r.lpn, qty: 0, loc: new Set(), rows: [], wh: r.wh });
-    o.qty = r2(o.qty + r.qty); if (r.loc) o.loc.add(r.loc); o.rows.push(r);
+    const o = m[r.lpn] || (m[r.lpn] = { lpn: r.lpn, qty: 0, alloc: 0, loc: new Set(), rows: [], wh: r.wh });
+    o.qty = r2(o.qty + r.qty); o.alloc = r2(o.alloc + aOf(r)); if (r.loc) o.loc.add(r.loc); o.rows.push(r);
   });
   return Object.values(m).filter(p => p.qty > 0).sort((a, b) => CO.compare(a.lpn, b.lpn));
 }
@@ -355,7 +361,7 @@ function exactSubset(ps, target) {                        // หาชุด LPN
 }
 function mAuto() {
   const { item, wh } = mCur(); if (!item) return;
-  const ps = mPallets(item, wh), cap = capOf(item, wh);
+  const ps = mPallets(item, wh).filter(mOk), cap = capOf(item, wh);
   const base = r2(ps.filter(p => mSel.has(p.lpn)).reduce((a, p) => a + p.qty, 0));
   if (base >= cap) return toast('ที่เลือกไว้รวมถึง Cap แล้ว');
   const r = exactSubset(ps.filter(p => !mSel.has(p.lpn)), r2(cap - base));
@@ -381,27 +387,29 @@ function renderMrg() {
   sel.value = keys.includes(want) ? want : (keys[0] || '');
   if (sel.value !== mPrev) { mSel.clear(); mDest = ''; mPrev = sel.value; }
   const key = sel.value, ix = key.lastIndexOf('|'), item = ix < 0 ? '' : key.slice(0, ix), mwh = ix < 0 ? '' : key.slice(ix + 1), ps = item ? mPallets(item, mwh) : [], cap = item ? capOf(item, mwh) : 0;
-  [...mSel].forEach(l => { if (!ps.some(p => p.lpn === l)) mSel.delete(l); });
+  [...mSel].forEach(l => { if (!ps.some(p => p.lpn === l && mOk(p))) mSel.delete(l); });
   const ch = ps.filter(p => mSel.has(p.lpn)), tot = r2(ch.reduce((a, p) => a + p.qty, 0));
   if (!mSel.has(mDest)) mDest = ch.length ? ch.reduce((m, p) => p.qty > m.qty ? p : m).lpn : '';
   const st = tot === cap ? ['ok', 'ตรง Cap พอดี'] : tot > cap ? ['bad', 'เกิน Cap ' + fmt(tot - cap)] : ['wn', 'ขาดอีก ' + fmt(cap - tot)];
-  $('#mSum').innerHTML = item ? '<b>เลือก ' + ch.length + ' LPN</b> · รวม <b class="mono">' + fmt(tot) + '</b> / Cap ' + fmt(cap) + ' (' + srcOf(item) + ') <span class="chip ' + st[0] + '">' + st[1] + '</span>' : '';
+  const heldN = ps.filter(p => !mOk(p)).length;
+  $('#mSum').innerHTML = item ? '<b>เลือก ' + ch.length + ' LPN</b> · รวม <b class="mono">' + fmt(tot) + '</b> / Cap ' + fmt(cap) + ' (' + srcOf(item) + ') <span class="chip ' + st[0] + '">' + st[1] + '</span>' + (heldN ? ' <span class="chip bad">ข้าม ' + heldN + ' LPN ที่มี Allocated</span>' : '') : '';
   const full = Math.abs(tot - cap) < 1e-9, pct = cap ? Math.min(100, tot / cap * 100) : 0, pc = tot > cap + 1e-9 ? 'var(--bad)' : full ? 'var(--ok)' : 'var(--wn)';
   $('#mPrev').innerHTML = ch.length ? '<div class="card p-3" style="border-color:' + pc + '"><div class="flex flex-wrap gap-4 items-center">' +
     '<div><div class="sub">ยอด Case On Hand หลังรวม (ตัวอย่าง ยังไม่รวมจริง)</div><div class="text-xl font-semibold mono">' + fmt(tot) + ' <span class="sub">/ Cap ' + fmt(cap) + '</span></div></div>' +
     '<div><span class="chip ' + st[0] + '">' + (full ? 'เต็ม Cap พอดี' : tot > cap ? 'เกิน Cap ' + fmt(tot - cap) + ' (รวมไม่ได้)' : 'น้อยกว่า Cap · ขาดอีก ' + fmt(cap - tot)) + '</span><div class="bar" style="width:180px"><i style="width:' + pct + '%;background:' + pc + '"></i></div></div>' +
     '<div class="sub">เก็บที่ LPN <b class="mono">' + esc(mDest || '—') + '</b> · ' + ch.length + ' LPN</div></div>' +
     '<div class="sub mt-2">สูตร: ' + esc(ch.map(p => p.lpn + ' (' + fmt(p.qty) + ')').join(' + ')) + ' = ' + fmt(tot) + '</div>' +
-    (!full && tot < cap && !ps.some(p => !mSel.has(p.lpn) && p.qty <= cap - tot + 1e-9) ? '<div class="mt-1"><span class="chip wn">รวมต่อไม่ได้แล้ว — ไม่มี LPN ที่เติมได้โดยไม่เกิน Cap</span> <span class="sub">กด “ตัดยอด…” ได้เลย</span></div>' : '') + '</div>' : '';
-  $('#bMrg').disabled = !(ch.length >= 2 && tot <= cap + 1e-9);
-  $('#bMCut').disabled = !(ch.length >= 1 && tot > 0 && tot <= cap + 1e-9);          // ตัดยอดได้เมื่อยอดเท่ากับหรือน้อยกว่า Cap (ไม่เกิน)
+    (!full && tot < cap && !ps.some(p => mOk(p) && !mSel.has(p.lpn) && p.qty <= cap - tot + 1e-9) ? '<div class="mt-1"><span class="chip wn">รวมต่อไม่ได้แล้ว — ไม่มี LPN ที่เติมได้โดยไม่เกิน Cap</span> <span class="sub">กด “ตัดยอด…” ได้เลย</span></div>' : '') + '</div>' : '';
+  $('#bMrg').disabled = !(ch.length >= 2 && tot <= cap + 1e-9 && ch.every(mOk));
+  $('#bMCut').disabled = !(ch.length >= 1 && tot > 0 && tot <= cap + 1e-9 && ch.every(mOk));          // ตัดยอดได้เมื่อยอดเท่ากับหรือน้อยกว่า Cap (ไม่เกิน)
   $('#mTb').innerHTML = ps.map(p => {
-    const on = mSel.has(p.lpn), lots = [...new Set(p.rows.map(r => r.lot))];
-    return '<tr><td><input type="checkbox" data-m="' + esc(p.lpn) + '"' + (on ? ' checked' : '') + '></td><td class="mono"><b>' + esc(p.lpn) + '</b></td><td>' + esc([...p.loc].join(', ') || '—') + '</td>' +
+    const on = mSel.has(p.lpn), ok = mOk(p), lots = [...new Set(p.rows.map(r => r.lot))];
+    return '<tr' + (ok ? '' : ' style="opacity:.6"') + '><td><input type="checkbox" data-m="' + esc(p.lpn) + '"' + (on ? ' checked' : '') + (ok ? '' : ' disabled title="มี Allocated — รวมเลทไม่ได้"') + '></td><td class="mono"><b>' + esc(p.lpn) + '</b></td><td>' + esc([...p.loc].join(', ') || '—') + '</td>' +
       '<td class="mono">' + esc(lots.slice(0, 3).join(', ')) + (lots.length > 3 ? ' +' + (lots.length - 3) : '') + '</td><td class="r mono"><b>' + fmt(p.qty) + '</b></td>' +
+      '<td class="r mono">' + (ok ? '<span class="sub">0</span>' : '<span class="chip bad">' + fmt(p.alloc) + '</span>') + '</td>' +
       '<td><label class="flex items-center gap-1"><input type="radio" name="md" data-md="' + esc(p.lpn) + '"' + (mDest === p.lpn ? ' checked' : '') + (on ? '' : ' disabled') + '> เก็บที่ LPN นี้</label></td></tr>';
-  }).join('') || '<tr><td colspan="6" class="sub" style="text-align:center;padding:30px">ไม่มีพาเลทของ Item นี้</td></tr>';
-  const lastFull = mLast && mLast.total <= mLast.cap + 1e-9 && rows.some(r => r.item === mLast.item && r.wh === mLast.wh && r.lpn === mLast.dest);
+  }).join('') || '<tr><td colspan="7" class="sub" style="text-align:center;padding:30px">ไม่มีพาเลทของ Item นี้</td></tr>';
+  const lastFull = mLast && mLast.total <= mLast.cap + 1e-9 && !rows.some(r => r.item === mLast.item && r.wh === mLast.wh && r.lpn === mLast.dest && aOf(r) > 0) && rows.some(r => r.item === mLast.item && r.wh === mLast.wh && r.lpn === mLast.dest);
   $('#mRes').innerHTML = mLast ? '<div class="card p-3" style="border-color:var(--ok)"><div class="font-semibold mb-1">ผลการรวมเลทล่าสุด</div>' + recHtml(mLast) +
     (lastFull ? '<div class="flex gap-2 items-center mt-2"><span class="chip ' + (Math.abs(mLast.total - mLast.cap) < 1e-9 ? 'ok">เต็ม Cap พอดี' : 'wn">น้อยกว่า Cap') + '</span><button class="btn s p" data-cl="' + mLast.id + '">ตัดยอด LPN ' + esc(mLast.dest) + '</button></div>' : '') + '</div>' : '';
   $('#cHist').innerHTML = cuts.slice(0, 30).map(c => '<details class="card p-3"><summary class="cursor-pointer"><span class="chip bad">ตัดยอด</span> <b class="mono">' + esc(c.item) + '</b> ' + esc(c.name) + ' · ' + byOrig(c.removed).length + ' LPN เดิม · ' + fmt(c.total) + ' / ' + fmt(c.cap) + ' <span class="chip">' + esc(c.wh) + '</span> <span class="sub">' + esc(c.at) + '</span></summary><div class="mt-2">' +
@@ -415,6 +423,7 @@ function renderMrg() {
 function doMerge() {
   const { item, wh } = mCur(), ch = mPallets(item, wh).filter(p => mSel.has(p.lpn));
   if (ch.length < 2 || !mSel.has(mDest)) return;
+  if (ch.some(p => !mOk(p))) return toast('มี LPN ที่ Allocated > 0 — รวมเลทไม่ได้');
   const tot = r2(ch.reduce((a, p) => a + p.qty, 0)), dp = ch.find(p => p.lpn === mDest), destLoc = [...dp.loc][0] || '';
   const rec = { id: uid(), at: new Date().toLocaleString('th-TH'), item, name: nameOf(item), wh: dp.wh, cap: capOf(item, dp.wh), dest: mDest, destLoc, total: tot, moved: [],
     src: ch.map(p => ({ lpn: p.lpn, loc: [...p.loc].join(', '), qty: p.qty, lots: p.rows.map(r => ({ lot: r.lot, lot2: r.lot2, qty: r.qty })) })) };
@@ -449,6 +458,7 @@ function byOrig(rs) {                                              // จัด�
 }
 function cutPrompt(item, wh, rs) {                                  // rs = แถวสต็อกที่จะตัด (ของ LPN ที่เลือก)
   const tot = r2(rs.reduce((a, r) => a + r.qty, 0)), cap = capOf(item, wh), lpns = byOrig(rs).map(o => o.lpn + ' (' + fmt(o.qty) + ')');
+  if (rs.some(r => aOf(r) > 0)) return toast('ตัดยอดไม่ได้ — มี Allocated > 0 (ต้องเป็น 0 ก่อน)');
   if (tot <= 0 || tot > cap + 1e-9) return toast('ตัดยอดได้เฉพาะเมื่อยอดรวมไม่เกิน Cap (' + fmt(tot) + ' / ' + fmt(cap) + ')');
   modal('ยืนยันการตัดยอด', '<div>Item <b class="mono">' + esc(item) + '</b> ' + esc(nameOf(item)) + ' · ' + esc(wh) + '<br>พาเลทเดิม: ' + lpns.map(l => '<span class="mono">' + esc(l) + '</span>').join(' + ') +
     '<br>ยอดตัด <b>' + fmt(tot) + '</b> / Cap ' + fmt(cap) + ' ' + (Math.abs(tot - cap) < 1e-9 ? '<span class="chip ok">เต็ม Cap พอดี</span>' : '<span class="chip wn">น้อยกว่า Cap · ขาดอีก ' + fmt(cap - tot) + '</span>') +
@@ -458,6 +468,7 @@ function cutPrompt(item, wh, rs) {                                  // rs = แ�
 function doCut(item, wh, ids) {
   const set = new Set(ids), rs = rows.filter(r => set.has(r.id)); if (!rs.length) return;
   const tot = r2(rs.reduce((a, r) => a + r.qty, 0)), cap = capOf(item, wh);
+  if (rs.some(r => aOf(r) > 0)) return toast('ตัดยอดไม่ได้ — มี Allocated > 0');
   if (tot <= 0 || tot > cap + 1e-9) return toast('ยอดเกิน Cap — ยกเลิกการตัดยอด');
   const rec = { id: uid(), at: new Date().toLocaleString('th-TH'), item, name: nameOf(item), wh, cap, total: tot, lpns: byOrig(rs).map(o => o.lpn), removed: rs.map(r => ({ ...r })) };
   rows = rows.filter(r => !set.has(r.id));
@@ -503,8 +514,8 @@ function dl(aoa, name, sheet) {
 }
 function exportStock() {
   const v = viewRows(); if (!v.length) return toast('ไม่มีข้อมูลให้ Export');
-  dl([['Item', 'Description', 'Lot', 'Lot DLD', 'Location', 'LPN', 'Case On Hand', 'รวม LPN', 'Master Cap', 'ที่มา Cap', 'WH', 'Lot Status']]
-    .concat(v.map(r => [r.item, nameOf(r.item, r.desc), r.lot, r.lot2, r.loc, r.lpn, r.qty, pm[r.item + '|' + r.lpn], capOf(r.item, r.wh), srcOf(r.item), r.wh, r.st])), 'WMS_Stock_' + new Date().toISOString().slice(0, 10) + '.xlsx', 'Stock');
+  dl([['Item', 'Description', 'Lot', 'Lot DLD', 'Location', 'LPN', 'Case On Hand', 'Allocated', 'รวม LPN', 'Master Cap', 'ที่มา Cap', 'WH', 'Lot Status']]
+    .concat(v.map(r => [r.item, nameOf(r.item, r.desc), r.lot, r.lot2, r.loc, r.lpn, r.qty, aOf(r), pm[r.item + '|' + r.lpn], capOf(r.item, r.wh), srcOf(r.item), r.wh, r.st])), 'WMS_Stock_' + new Date().toISOString().slice(0, 10) + '.xlsx', 'Stock');
 }
 
 /* ===================== เหตุการณ์ (Event Wiring) ===================== */
@@ -566,7 +577,7 @@ $('#mTb').onchange = e => {
 $('#bMClr').onclick = () => { mSel.clear(); mDest = ''; renderMrg(); };
 $('#bMAuto').onclick = mAuto;
 $('#bMrg').onclick = () => {
-  const { item, wh } = mCur(), ch = mPallets(item, wh).filter(p => mSel.has(p.lpn)); if (ch.length < 2) return;
+  const { item, wh } = mCur(), ch = mPallets(item, wh).filter(p => mSel.has(p.lpn)); if (ch.length < 2 || ch.some(p => !mOk(p))) return;
   const tot = r2(ch.reduce((a, p) => a + p.qty, 0)), cap = capOf(item, ch[0].wh);
   modal('ยืนยันการรวมเลท', '<div>รวมเข้า LPN <b>' + esc(mDest) + '</b><br>' + ch.map(p => '<span class="mono">' + esc(p.lpn) + '</span> (' + fmt(p.qty) + ' CS)').join(' + ') + ' = <b>' + fmt(tot) + '</b> / Cap ' + fmt(cap) +
     '<br>ยอดหลังรวม: ' + (Math.abs(tot - cap) < 1e-9 ? '<span class="chip ok">เต็ม Cap พอดี</span>' : '<span class="chip wn">น้อยกว่า Cap · ขาดอีก ' + fmt(cap - tot) + '</span>') +
