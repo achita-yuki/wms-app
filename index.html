@@ -127,8 +127,8 @@ dialog::backdrop{background:rgba(8,12,24,.55)}
     <div id="mPrev"></div>
     <div class="card overflow-hidden"><div class="overflow-x-auto"><table><thead><tr><th></th><th>LPN</th><th>Location</th><th>Lot</th><th class="r">Case On Hand</th><th class="r">Allocated</th><th>LPN ปลายทาง</th></tr></thead><tbody id="mTb"></tbody></table></div></div>
     <div id="mRes"></div>
-    <div class="flex flex-wrap gap-2 items-center"><div class="font-semibold flex-1">ประวัติการรวมเลท</div><button class="btn s" id="bMHAll">Export ประวัติรวมเลททั้งหมด (Excel)</button></div><div id="mHist" class="grid gap-2"></div>
-    <div class="flex flex-wrap gap-2 items-center"><div class="font-semibold flex-1">ประวัติการตัดยอด</div><button class="btn s" id="bCHAll">Export ประวัติตัดยอดทั้งหมด (Excel)</button></div><div id="cHist" class="grid gap-2"></div>
+    <div class="flex flex-wrap gap-2 items-center"><div class="font-semibold flex-1">ประวัติการรวมเลท</div><button class="btn s" id="bMHAll">Export ประวัติรวมเลททั้งหมด (Excel)</button><button class="btn s d" id="bMHClr">ล้างประวัติรวมเลท</button></div><div id="mHist" class="grid gap-2"></div>
+    <div class="flex flex-wrap gap-2 items-center"><div class="font-semibold flex-1">ประวัติการตัดยอด</div><button class="btn s" id="bCHAll">Export ประวัติตัดยอดทั้งหมด (Excel)</button><button class="btn s d" id="bCHClr">ล้างประวัติตัดยอด</button></div><div id="cHist" class="grid gap-2"></div>
   </section>
 
   <!-- ===== แท็บ Master Cap ===== -->
@@ -587,6 +587,16 @@ $('#mTb').onchange = e => {
   if (c) { if (c.checked) mSel.add(c.dataset.m); else mSel.delete(c.dataset.m); }
   if (d) mDest = d.dataset.md;
   renderMrg();
+};
+$('#bMHClr').onclick = () => {
+  if (!merges.length) return toast('ยังไม่มีประวัติการรวมเลทให้ล้าง');
+  modal('ล้างประวัติการรวมเลท', '<div>จะลบประวัติการรวมเลท <b>' + merges.length + '</b> รายการ<br><span class="sub">สต็อกที่รวมไปแล้วจะ<b>คงเดิม</b> แต่จะ<b>ยกเลิกการรวม (คืน LPN เดิม) ไม่ได้อีก</b> · ลบแล้วย้อนกลับไม่ได้ — ควร Export สำรองก่อน</span></div>',
+    [['ยกเลิก'], ['ล้างประวัติรวมเลท', 'd', () => { const n = merges.length; merges = []; mLast = null; log('ล้างประวัติ', { item: '', lpn: '', lot: '', qty: 0, wh: '' }, 'ล้างประวัติรวมเลท ' + n + ' รายการ'); refresh(); toast('ล้างประวัติการรวมเลทแล้ว'); }]]);
+};
+$('#bCHClr').onclick = () => {
+  if (!cuts.length) return toast('ยังไม่มีประวัติการตัดยอดให้ล้าง');
+  modal('ล้างประวัติการตัดยอด', '<div>จะลบประวัติการตัดยอด <b>' + cuts.length + '</b> รายการ<br><span class="sub">สต็อกที่ตัดไปแล้วจะ<b>ไม่ถูกคืน</b> และจะ<b>ยกเลิกการตัดยอด (คืนสต็อก) ไม่ได้อีก</b> · ลบแล้วย้อนกลับไม่ได้ — ควร Export สำรองก่อน</span></div>',
+    [['ยกเลิก'], ['ล้างประวัติตัดยอด', 'd', () => { const n = cuts.length; cuts = []; log('ล้างประวัติ', { item: '', lpn: '', lot: '', qty: 0, wh: '' }, 'ล้างประวัติตัดยอด ' + n + ' รายการ'); refresh(); toast('ล้างประวัติการตัดยอดแล้ว'); }]]);
 };
 $('#bCHAll').onclick = exportCutAll; $('#bMHAll').onclick = exportMergeAll;
 $('#bMClr').onclick = () => { mSel.clear(); mDest = ''; renderMrg(); };
