@@ -25,6 +25,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .hd{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:var(--sf);border-bottom:1px solid var(--bd)}
 .card{background:var(--sf);border:1px solid var(--bd);border-radius:14px}
 .btn{border:1px solid var(--bd);background:var(--sf);color:var(--tx);border-radius:9px;padding:6px 11px;cursor:pointer;font-weight:500;white-space:nowrap}
+a.btn{display:inline-block;text-decoration:none}
 .btn:hover{background:var(--s2)}.btn.p{background:var(--ac);border-color:var(--ac);color:var(--bg)}.btn.d{color:var(--bad)}.btn.s{padding:2px 8px;font-size:12px}.btn[disabled]{opacity:.45;cursor:not-allowed}
 .inp{width:100%;background:var(--s2);border:1px solid var(--bd);border-radius:8px;padding:5px 8px;color:var(--tx);font:inherit}
 .inp:focus{outline:2px solid var(--ac);outline-offset:-1px}
@@ -67,6 +68,7 @@ dialog::backdrop{background:rgba(8,12,24,.55)}
     <button class="btn p" id="bImp">นำเข้า Excel / CSV</button>
     <button class="btn" id="bExp">Export ที่กรองแล้ว</button>
     <button class="btn d" id="bClr">ล้างข้อมูล</button>
+    <a href="https://forms.gle/7TehEGxbBTK1XoYa8" target="_blank" rel="noopener noreferrer" class="btn" id="bReport" title="แจ้งหรือรายงานข้อผิดพลาด">⚠️ แจ้งปัญหา</a>
     <button class="btn" id="bTheme">ธีม</button>
     <input type="file" id="fIn" accept=".xlsx,.xls,.csv" class="hide">
   </div>
